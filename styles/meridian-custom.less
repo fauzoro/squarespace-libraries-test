@@ -32,6 +32,21 @@
 // Reset overrides for Squarespace
 // -------------------------------------------------------
 
+// Force black background at every level.
+// Squarespace's tweak system sets body background via
+// @tweak-site-body-background-color which can override us —
+// !important on html/body wins that specificity battle in
+// both local dev and live Squarespace.
+html,
+body,
+.Site,
+.Site-inner,
+.sqs-layout,
+.Index,
+.Main {
+  background-color: #000000 !important;
+}
+
 .meridian-site * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
