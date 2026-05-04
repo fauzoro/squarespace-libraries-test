@@ -4,25 +4,25 @@
       {.folder?}
         {.index?}
           {.section collection}
-            <a href="{fullUrl}" class="Mobile-overlay-nav-item">
+            <a href="{fullUrl}" class="mn-mobile-nav__link{.if active} is-active{.end}">
               {navigationTitle}
             </a>
           {.end}
         {.or}
-          <button class="Mobile-overlay-nav-item Mobile-overlay-nav-item--folder" data-controller-folder-toggle="{collection.urlId}">
-            <span class="Mobile-overlay-nav-item--folder-label">{collection.navigationTitle}</span>
-          </button>
+          <span class="mn-mobile-nav__link mn-mobile-nav__link--folder">
+            {collection.navigationTitle}
+          </span>
         {.end}
       {.or}
         {.section collection}
-          <a href="{fullUrl}" class="Mobile-overlay-nav-item">
+          <a href="{fullUrl}" class="mn-mobile-nav__link{.if active} is-active{.end}">
             {navigationTitle}
           </a>
         {.end}
       {.end}
     {.end}
     {.section externalLink}
-      <a href="{url}"{.section newWindow} target="_blank"{.end} class="Mobile-overlay-nav-item">
+      <a href="{url}"{.section newWindow} target="_blank"{.end} class="mn-mobile-nav__link">
         {title}
       </a>
     {.end}

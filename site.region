@@ -1,183 +1,539 @@
 <!doctype html>
 <html {.if authenticatedAccount}data-authenticated-account{.end}>
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="initial-scale=1">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505">
 
-    {squarespace-headers}
-  </head>
-  <body id="{squarespace.page-id}" class="{squarespace.page-classes} sqs-has-custom-cart{.if website.logoImageUrl} has-logo-image{.or} has-site-title{.end}{.if website.siteTagLine} has-tagline{.end}{.if website.socialAccounts.0} has-social{.end}{.if showCart} has-cart{.end}{.if item}{.or}{.equal? collection.typeName "index"}{.section collection}{.repeated section collections}{.background-source-video?} has-parallax-images{.or}{.section mainImage} has-parallax-images{.end}{.end}{.end}{.end}{.or}{.section collection}{.background-source-video?} has-parallax-images{.or}{.section mainImage} has-parallax-images{.end}{.end}{.end}{.end}{.end} enable-load-effects<squarespace:navigation navigationId="mainNavigation">{.if items.0} has-primary-nav{.end}</squarespace:navigation><squarespace:navigation navigationId="secondaryNavigation">{.if items.0} has-secondary-nav{.end}</squarespace:navigation><squarespace:navigation navigationId="footerMainNavigation">{.if items.0} has-footer-nav{.end}</squarespace:navigation>{.equal? collection.typeName "index"}{.section collection}{.section collections.0}{.equal? typeName "gallery"} has-index-gallery-first{.end}{.end}{.end}{.end}{.if userAccountsContext.showSignInLink} has-user-accounts{.end}" data-controller="HashManager, SiteLoader, MobileClassname">
+  {squarespace-headers}
 
-    <div class="Loader"></div>
+  <!-- Swiper CSS (vendor local) -->
+  <link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
+  <!-- Lenis CSS (vendor local) -->
+  <link rel="stylesheet" href="/assets/vendor/lenis/lenis.css">
+</head>
+<body id="{squarespace.page-id}" class="{squarespace.page-classes} meridian-site{.if website.logoImageUrl} has-logo-image{.or} has-site-title{.end}" data-controller="HashManager, SiteLoader, MobileClassname">
 
-    {@|apply mobile.block}
+  <!-- =============================================
+       NAVIGATION
+       ============================================= -->
+  <header class="mn-header" id="mn-header" data-header>
+    <div class="mn-header__inner">
 
-    <div class="Parallax-host-outer">
-      <div class="Parallax-host" data-parallax-host>
-        {.equal? collection.typeName "index"}
-          {.section collection}
-            {.repeated section collections}
-              {.var @collectionId id}
-              {.background-source-video?}
-                <div class="Parallax-item" data-parallax-item data-parallax-id="{@collectionId}"></div>
-              {.or}
-                {.section mainImage}
-                  <div class="Parallax-item" data-parallax-item data-parallax-id="{@collectionId}"></div>
-                {.end}
-              {.end}
-            {.end}
-          {.end}
-        {.or}
-          {.equal? collection.typeName "products"}
-          {#  The system Product collection does not support video backgrounds  }
-            {.section collection}
-              {.var @collectionId id}
-              {.section mainImage}
-                <div class="Parallax-item" data-parallax-item data-parallax-id="{@collectionId}"></div>
-              {.end}
-            {.end}
+      <a href="/" class="mn-header__logo" data-content-field="site-title">
+        {.section website}
+          {.section logoImageUrl}
+            <img src="{logoImageUrl}" alt="{siteTitle}" class="mn-header__logo-img">
           {.or}
-            {.if item}{.or}
-              {.section collection}
-                {.var @collectionId id}
-                {.background-source-video?}
-                  <div class="Parallax-item" data-parallax-item data-parallax-id="{@collectionId}"></div>
-                {.or}
-                  {.section mainImage}
-                    <div class="Parallax-item" data-parallax-item data-parallax-id="{@collectionId}"></div>
-                  {.end}
-                {.end}
-              {.end}
-            {.end}
+            <span class="mn-header__logo-text">{siteTitle}</span>
           {.end}
         {.end}
+      </a>
+
+      <nav class="mn-header__nav" aria-label="Main navigation">
+        <squarespace:navigation navigationId="mainNavigation" template="header-nav" />
+      </nav>
+
+      <div class="mn-header__actions">
+        <a href="#contact" class="mn-btn mn-btn--outline mn-header__cta">Start a Project</a>
+        <button class="mn-hamburger" aria-label="Toggle menu" aria-expanded="false" data-hamburger>
+          <span class="mn-hamburger__bar"></span>
+          <span class="mn-hamburger__bar"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile nav overlay -->
+  <div class="mn-mobile-nav" data-mobile-nav>
+    <nav class="mn-mobile-nav__links" aria-label="Mobile navigation">
+      <squarespace:navigation navigationId="mainNavigation" template="mobile-nav" />
+    </nav>
+    <div class="mn-mobile-nav__footer">
+      <a href="#contact" class="mn-btn mn-btn--primary">Start a Project</a>
+    </div>
+  </div>
+
+  <!-- =============================================
+       PAGE CONTENT WRAPPER
+       ============================================= -->
+  <div class="mn-site-wrap" data-lenis-wrapper>
+
+    {.equal? collection.typeName "index"}
+    {.section collection}
+
+    <!-- =============================================
+         HERO
+         ============================================= -->
+    <section class="mn-hero" id="hero">
+      <div class="mn-hero__bg" data-hero-bg>
+        <div class="mn-hero__grain"></div>
+      </div>
+      <div class="mn-container">
+        <div class="mn-hero__content">
+          <div class="mn-hero__label" data-reveal>
+            <span>Creative Studio</span>
+            <span class="mn-hero__label-line"></span>
+          </div>
+          <h1 class="mn-hero__headline" data-headline>
+            <span class="mn-hero__headline-line" data-line>We craft</span>
+            <span class="mn-hero__headline-line mn-hero__headline-line--accent" data-line>digital</span>
+            <span class="mn-hero__headline-line" data-line>experiences</span>
+          </h1>
+          <p class="mn-hero__sub" data-reveal>
+            Brand identity, web design &amp; interactive experiences<br>
+            for ambitious companies worldwide.
+          </p>
+          <div class="mn-hero__actions" data-reveal>
+            <a href="#work" class="mn-btn mn-btn--primary mn-btn--lg">View Our Work</a>
+            <a href="#contact" class="mn-btn mn-btn--ghost mn-btn--lg">Let's Talk</a>
+          </div>
+        </div>
+        <div class="mn-hero__scroll-cue" data-reveal>
+          <span class="mn-hero__scroll-text">Scroll</span>
+          <div class="mn-hero__scroll-line"></div>
+        </div>
+      </div>
+      <div class="mn-hero__counter" data-reveal>
+        <div class="mn-hero__counter-item">
+          <span class="mn-hero__counter-num" data-count="120">0</span><span>+</span>
+          <p>Projects Delivered</p>
+        </div>
+        <div class="mn-hero__counter-item">
+          <span class="mn-hero__counter-num" data-count="8">0</span>
+          <p>Years of Craft</p>
+        </div>
+        <div class="mn-hero__counter-item">
+          <span class="mn-hero__counter-num" data-count="40">0</span><span>+</span>
+          <p>Global Clients</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         MARQUEE
+         ============================================= -->
+    <div class="mn-marquee" aria-hidden="true">
+      <div class="mn-marquee__track" data-marquee>
+        <div class="mn-marquee__inner">
+          <span>Brand Identity</span><span class="mn-marquee__dot">✦</span>
+          <span>Web Design</span><span class="mn-marquee__dot">✦</span>
+          <span>Motion Design</span><span class="mn-marquee__dot">✦</span>
+          <span>Digital Strategy</span><span class="mn-marquee__dot">✦</span>
+          <span>UI / UX</span><span class="mn-marquee__dot">✦</span>
+          <span>Development</span><span class="mn-marquee__dot">✦</span>
+          <span>Photography</span><span class="mn-marquee__dot">✦</span>
+          <span>Creative Direction</span><span class="mn-marquee__dot">✦</span>
+        </div>
+        <div class="mn-marquee__inner" aria-hidden="true">
+          <span>Brand Identity</span><span class="mn-marquee__dot">✦</span>
+          <span>Web Design</span><span class="mn-marquee__dot">✦</span>
+          <span>Motion Design</span><span class="mn-marquee__dot">✦</span>
+          <span>Digital Strategy</span><span class="mn-marquee__dot">✦</span>
+          <span>UI / UX</span><span class="mn-marquee__dot">✦</span>
+          <span>Development</span><span class="mn-marquee__dot">✦</span>
+          <span>Photography</span><span class="mn-marquee__dot">✦</span>
+          <span>Creative Direction</span><span class="mn-marquee__dot">✦</span>
+        </div>
       </div>
     </div>
 
-    <div class="Site" data-nc-base="header" data-controller="AncillaryLayout">
-      <div class="sqs-announcement-bar-dropzone"></div>
+    <!-- =============================================
+         SERVICES
+         ============================================= -->
+    <section class="mn-section mn-services" id="services">
+      <div class="mn-container">
+        <div class="mn-section__header" data-section-header>
+          <span class="mn-section__label">What We Do</span>
+          <h2 class="mn-section__title">Services built<br>for modern brands</h2>
+        </div>
+        <div class="mn-services__grid">
 
-      <header class="Header Header--top">
-        <div class="Header-inner Header-inner--top" data-nc-group="top">
-          <div data-nc-container="top-left">
-
-            <div class="Header-search" data-nc-element="search">
-              <form class="Header-search-form" action="/search" method="get" role="search">
-                <input class="Header-search-form-input" name="q" type="text" spellcheck="false" value="" autocomplete="off" placeholder="{localizedStrings.search}" aria-label="{localizedStrings.search}"/>
-                <button class="Header-search-form-submit" type="submit" data-test="template-search" aria-label="{localizedStrings.search}">
-                  <svg class="Icon Icon--search--small" viewBox="0 0 15 15">
-                    <use xlink:href="/assets/ui-icons.svg#search-icon--small"></use>
-                  </svg>
-                  <svg class="Icon Icon--search" viewBox="0 0 20 20">
-                    <use xlink:href="/assets/ui-icons.svg#search-icon"></use>
-                  </svg>
-                </button>
-              </form>
+          <div class="mn-service-card" data-service-card>
+            <div class="mn-service-card__num">01</div>
+            <div class="mn-service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="10" stroke="currentColor" stroke-width="2"/><path d="M24 4v4M24 40v4M4 24h4M40 24h4M8.69 8.69l2.83 2.83M36.49 36.49l2.83 2.83M8.69 39.31l2.83-2.83M36.49 11.51l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
-
+            <h3 class="mn-service-card__title">Brand Identity</h3>
+            <p class="mn-service-card__desc">Strategic brand systems with personality — logos, color, type, and guidelines that last decades.</p>
+            <a href="#contact" class="mn-service-card__link">Explore <span>→</span></a>
           </div>
-          <div data-nc-container="top-center">
-            {.if userAccountsContext.showSignInLink}
-              <div class="Header-account" data-nc-element="account" data-controller="UserAccountLink">
-                <button class="user-accounts-text-link">
-                  <span class="unauth">{localizedStrings.signIn}</span>
-                  <span class="auth">{localizedStrings.myAccount}</span>
-                </button>
-                <div class="user-accounts-icon">
-                  {@|apply user-account-icon.block}
+
+          <div class="mn-service-card" data-service-card>
+            <div class="mn-service-card__num">02</div>
+            <div class="mn-service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="8" width="40" height="28" rx="3" stroke="currentColor" stroke-width="2"/><path d="M16 44h16M24 36v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3 class="mn-service-card__title">Web Design</h3>
+            <p class="mn-service-card__desc">Pixel-perfect digital experiences with purposeful interaction, smooth animation, and conversion focus.</p>
+            <a href="#contact" class="mn-service-card__link">Explore <span>→</span></a>
+          </div>
+
+          <div class="mn-service-card" data-service-card>
+            <div class="mn-service-card__num">03</div>
+            <div class="mn-service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none"><path d="M8 40V20l16-12 16 12v20" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><rect x="18" y="28" width="12" height="12" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="mn-service-card__title">Motion Design</h3>
+            <p class="mn-service-card__desc">Expressive animation that communicates — from micro-interactions to full brand films.</p>
+            <a href="#contact" class="mn-service-card__link">Explore <span>→</span></a>
+          </div>
+
+          <div class="mn-service-card" data-service-card>
+            <div class="mn-service-card__num">04</div>
+            <div class="mn-service-card__icon">
+              <svg viewBox="0 0 48 48" fill="none"><polyline points="6,36 18,20 28,28 42,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="42" cy="10" r="3" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3 class="mn-service-card__title">Digital Strategy</h3>
+            <p class="mn-service-card__desc">Research-driven positioning and go-to-market strategies that align design with measurable growth.</p>
+            <a href="#contact" class="mn-service-card__link">Explore <span>→</span></a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         SELECTED WORK (SWIPER)
+         ============================================= -->
+    <section class="mn-section mn-work" id="work">
+      <div class="mn-container">
+        <div class="mn-section__header mn-section__header--split" data-section-header>
+          <div>
+            <span class="mn-section__label">Selected Work</span>
+            <h2 class="mn-section__title">Projects we're<br>proud of</h2>
+          </div>
+          <div class="mn-work__nav">
+            <button class="mn-swiper-btn mn-swiper-btn--prev" aria-label="Previous project" data-work-prev>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="mn-swiper-btn mn-swiper-btn--next" aria-label="Next project" data-work-next>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mn-work__slider-wrap">
+        <div class="swiper mn-work__swiper" data-work-swiper>
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide mn-work-card">
+              <div class="mn-work-card__media">
+                <img src="https://picsum.photos/seed/meridian1/900/600" alt="Aura Skincare — Brand Identity" loading="lazy">
+                <div class="mn-work-card__overlay">
+                  <span class="mn-work-card__view">View Project &#8599;</span>
                 </div>
               </div>
-            {.end}
-            {.if website.socialAccounts.0}
-              <div class="Header-social" data-nc-element="social">
-                {@|apply social-links.block}
+              <div class="mn-work-card__info">
+                <span class="mn-work-card__cat">Brand Identity</span>
+                <h3 class="mn-work-card__title">Aura Skincare</h3>
+                <p class="mn-work-card__year">2024</p>
               </div>
-            {.end}
-          </div>
-          <div data-nc-container="top-right">
+            </div>
 
-            {@|apply cart.block}
+            <div class="swiper-slide mn-work-card">
+              <div class="mn-work-card__media">
+                <img src="https://picsum.photos/seed/meridian2/900/600" alt="Volta Electric — Web Design" loading="lazy">
+                <div class="mn-work-card__overlay">
+                  <span class="mn-work-card__view">View Project &#8599;</span>
+                </div>
+              </div>
+              <div class="mn-work-card__info">
+                <span class="mn-work-card__cat">Web Design</span>
+                <h3 class="mn-work-card__title">Volta Electric</h3>
+                <p class="mn-work-card__year">2024</p>
+              </div>
+            </div>
+
+            <div class="swiper-slide mn-work-card">
+              <div class="mn-work-card__media">
+                <img src="https://picsum.photos/seed/meridian3/900/600" alt="Bloom Architecture — Digital Strategy" loading="lazy">
+                <div class="mn-work-card__overlay">
+                  <span class="mn-work-card__view">View Project &#8599;</span>
+                </div>
+              </div>
+              <div class="mn-work-card__info">
+                <span class="mn-work-card__cat">Digital Strategy</span>
+                <h3 class="mn-work-card__title">Bloom Architecture</h3>
+                <p class="mn-work-card__year">2023</p>
+              </div>
+            </div>
+
+            <div class="swiper-slide mn-work-card">
+              <div class="mn-work-card__media">
+                <img src="https://picsum.photos/seed/meridian4/900/600" alt="Kilo Coffee — Brand + Web" loading="lazy">
+                <div class="mn-work-card__overlay">
+                  <span class="mn-work-card__view">View Project &#8599;</span>
+                </div>
+              </div>
+              <div class="mn-work-card__info">
+                <span class="mn-work-card__cat">Brand + Web</span>
+                <h3 class="mn-work-card__title">Kilo Coffee</h3>
+                <p class="mn-work-card__year">2023</p>
+              </div>
+            </div>
+
+            <div class="swiper-slide mn-work-card">
+              <div class="mn-work-card__media">
+                <img src="https://picsum.photos/seed/meridian5/900/600" alt="Nova Finance — Motion Design" loading="lazy">
+                <div class="mn-work-card__overlay">
+                  <span class="mn-work-card__view">View Project &#8599;</span>
+                </div>
+              </div>
+              <div class="mn-work-card__info">
+                <span class="mn-work-card__cat">Motion Design</span>
+                <h3 class="mn-work-card__title">Nova Finance</h3>
+                <p class="mn-work-card__year">2023</p>
+              </div>
+            </div>
 
           </div>
         </div>
-      </header>
+      </div>
+    </section>
 
-      <div class="Site-inner{.equal? collection.typeName "index"} Site-inner--index{.end}"{.equal? collection.typeName "index"}{.section collection}{.section collections.0}{.equal? typeName "page"}{.background-source-video?} data-controller="HeaderOverlay"{.or}{.section mainImage} data-controller="HeaderOverlay"{.end}{.end}{.end}{.equal? typeName "gallery"} data-controller="HeaderOverlay"{.end}{.end}{.end}{.or}{.if item}{.or}{.section collection}{.background-source-video?} data-controller="HeaderOverlay"{.or}{.section mainImage} data-controller="HeaderOverlay"{.end}{.end}{.end}{.end}{.end}>
+    <!-- =============================================
+         PROCESS
+         ============================================= -->
+    <section class="mn-section mn-process" id="process">
+      <div class="mn-container">
+        <div class="mn-section__header" data-section-header>
+          <span class="mn-section__label">How We Work</span>
+          <h2 class="mn-section__title">A process refined<br>over 8 years</h2>
+        </div>
+        <div class="mn-process__list">
 
-        <header class="Header Header--bottom{.if item}{.or}{.equal? collection.typeName "index"}{.section collection}{.section collections.0}{.equal? typeName "page"}{.background-source-video?} Header--overlay{.or}{.section mainImage} Header--overlay{.end}{.end}{.end}{.equal? typeName "gallery"} Header--index-gallery{.end}{.end}{.end}{.or}{.section collection}{.background-source-video?} Header--overlay{.or}{.section mainImage} Header--overlay{.end}{.end}{.end}{.end}{.end}">
-          <div class="Header-inner Header-inner--bottom" data-nc-group="bottom">
-            <div data-nc-container="bottom-left">
-              <nav class="Header-nav Header-nav--primary" data-nc-element="primary-nav" data-content-field="navigation">
-                <squarespace:navigation navigationId="mainNavigation" template="header-nav" />
-              </nav>
+          <div class="mn-process-step" data-process-step>
+            <div class="mn-process-step__num">01</div>
+            <div class="mn-process-step__content">
+              <h3>Discovery &amp; Strategy</h3>
+              <p>We immerse in your brand, market, and goals. Stakeholder interviews, competitor audits, and positioning workshops.</p>
             </div>
-            <div data-nc-container="bottom-center">
+            <div class="mn-process-step__line"></div>
+          </div>
 
-              <a href="/" class="Header-branding" data-nc-element="branding" data-content-field="site-title">
-                {.section website}
-                  {.section logoImageUrl}
-                    {#  sizes is set to max width for tweak-header-branding-logo-width  }
-                    {.ctx @image src=logoImageUrl alt=siteTitle}
-                    {@image|apply/apply-image-component.block/
-                      /class=Header-branding-logo/
-                      /sizes=320px/
-                      /elementTiming=wf-header-branding-logo/
-                    }
-                  {.or}
-                    {siteTitle}
-                  {.end}
-                {.end}
-              </a>
-              {.section website}{.section siteTagLine}<div class="Header-tagline" data-nc-element="tagline">{@}</div>{.end}{.end}
-
+          <div class="mn-process-step" data-process-step>
+            <div class="mn-process-step__num">02</div>
+            <div class="mn-process-step__content">
+              <h3>Concept &amp; Design</h3>
+              <p>Creative exploration, moodboards, and high-fidelity prototypes. Iterative rounds with clear feedback loops.</p>
             </div>
-            <div data-nc-container="bottom-right">
+            <div class="mn-process-step__line"></div>
+          </div>
 
-              <nav class="Header-nav Header-nav--secondary" data-nc-element="secondary-nav" data-content-field="navigation">
-                <squarespace:navigation navigationId="secondaryNavigation" template="header-nav" />
-              </nav>
+          <div class="mn-process-step" data-process-step>
+            <div class="mn-process-step__num">03</div>
+            <div class="mn-process-step__content">
+              <h3>Build &amp; Refine</h3>
+              <p>Pixel-perfect development with performance as a first-class citizen. Code-reviewed, tested, and optimised.</p>
+            </div>
+            <div class="mn-process-step__line"></div>
+          </div>
 
+          <div class="mn-process-step" data-process-step>
+            <div class="mn-process-step__num">04</div>
+            <div class="mn-process-step__content">
+              <h3>Launch &amp; Grow</h3>
+              <p>Smooth handoff with thorough documentation. Ongoing retainer support and analytics-led iteration.</p>
             </div>
           </div>
-        </header>
-
-        <div class="Content-outer">
-          {.if collection}{.if item}{.or}{.equal? collection.typeName "index"}{.or}
-            {.equal? collection.typeName "page"}
-              {.section collection}
-                {.background-source-video?}
-                  {@|apply intro.block}
-                {.or}
-                  {.if mainImage}
-                    {@|apply intro.block}
-                  {.end}
-                {.end}
-              {.end}
-            {.or}
-              {collection|apply intro.block}
-            {.end}
-          {.end}{.end}{.end}
-
-          <main class="{.equal? collection.typeName "index"}Index{.if collection.collections.0}{.or} Index--empty{.end}{.or}Main{.if collection.typeName} Main--{collection.typeName}{.equal? collection.typeName "page"}{.or}{.if item}-item{.or}-list{.end}{.end}{.end}{.end}" {.equal? collection.typeName "index"}data-collection-id="{collection.id}"{.end}{.equal? collection.typeName "index"} data-controller="IndexFirstSectionHeight, Parallax, IndexNavigation"{.end}>
-            {.equal? collection.typeName "index"}
-              {squarespace.main-content}
-            {.or}
-              <section class="Main-content" data-content-field="main-content">
-                {squarespace.main-content}
-              </section>
-            {.end}
-          </main>
 
         </div>
       </div>
+    </section>
 
-      {@|apply footer.block}
+    <!-- =============================================
+         ABOUT
+         ============================================= -->
+    <section class="mn-section mn-about" id="about">
+      <div class="mn-container">
+        <div class="mn-about__grid">
+          <div class="mn-about__media" data-about-media>
+            <img src="https://picsum.photos/seed/meridian-about/800/1000" alt="Meridian Studio team">
+            <div class="mn-about__badge">
+              <span class="mn-about__badge-num" data-count="8">0</span>
+              <span class="mn-about__badge-label">Years<br>of craft</span>
+            </div>
+          </div>
+          <div class="mn-about__copy" data-about-copy>
+            <span class="mn-section__label">About Studio</span>
+            <h2 class="mn-section__title">We are Meridian &#8212;<br>a studio obsessed<br>with quality</h2>
+            <p>Founded in 2016, Meridian Studio is an independent creative studio working at the intersection of brand, digital, and motion. We partner with startups, scale-ups, and global brands to create work that means something.</p>
+            <p>Our team of 14 designers, developers, and strategists operates from London and New York, bringing together editorial rigour and technical excellence on every project.</p>
+            <div class="mn-about__awards">
+              <div class="mn-about__award">
+                <span class="mn-about__award-org">Awwwards</span>
+                <span class="mn-about__award-name">Site of the Day &#215; 12</span>
+              </div>
+              <div class="mn-about__award">
+                <span class="mn-about__award-org">FWA</span>
+                <span class="mn-about__award-name">Of the Day &#215; 8</span>
+              </div>
+              <div class="mn-about__award">
+                <span class="mn-about__award-org">Webby Awards</span>
+                <span class="mn-about__award-name">Nominee 2023 &amp; 2024</span>
+              </div>
+            </div>
+            <a href="#contact" class="mn-btn mn-btn--primary">Work With Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    </div>
+    <!-- =============================================
+         TESTIMONIALS (SWIPER)
+         ============================================= -->
+    <section class="mn-section mn-testimonials" id="testimonials">
+      <div class="mn-container">
+        <div class="mn-section__header" data-section-header>
+          <span class="mn-section__label">Kind Words</span>
+          <h2 class="mn-section__title">What clients say</h2>
+        </div>
+        <div class="swiper mn-testimonials__swiper" data-testi-swiper>
+          <div class="swiper-wrapper">
 
-    <squarespace:script src="site-bundle.js" combo="false" />
+            <div class="swiper-slide mn-testi">
+              <blockquote class="mn-testi__quote">&#8220;Meridian transformed how our brand shows up online. The attention to detail &#8212; from typography choices to micro-interactions &#8212; is extraordinary.&#8221;</blockquote>
+              <div class="mn-testi__author">
+                <img src="https://picsum.photos/seed/testi1/80/80" alt="Sarah Chen" class="mn-testi__avatar">
+                <div>
+                  <strong>Sarah Chen</strong>
+                  <span>Founder, Aura Skincare</span>
+                </div>
+              </div>
+            </div>
 
-    {squarespace-footers}
+            <div class="swiper-slide mn-testi">
+              <blockquote class="mn-testi__quote">&#8220;Working with Meridian felt like having a world-class in-house team. They pushed us creatively while staying laser-focused on business goals.&#8221;</blockquote>
+              <div class="mn-testi__author">
+                <img src="https://picsum.photos/seed/testi2/80/80" alt="Marcus Webb" class="mn-testi__avatar">
+                <div>
+                  <strong>Marcus Webb</strong>
+                  <span>CEO, Volta Electric</span>
+                </div>
+              </div>
+            </div>
 
-  </body>
+            <div class="swiper-slide mn-testi">
+              <blockquote class="mn-testi__quote">&#8220;The rebrand Meridian delivered exceeded every expectation. Our conversion rate jumped 40% in the first three months post-launch.&#8221;</blockquote>
+              <div class="mn-testi__author">
+                <img src="https://picsum.photos/seed/testi3/80/80" alt="Priya Nair" class="mn-testi__avatar">
+                <div>
+                  <strong>Priya Nair</strong>
+                  <span>CMO, Nova Finance</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="mn-testimonials__pagination swiper-pagination" data-testi-pagination></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         CONTACT / CTA
+         ============================================= -->
+    <section class="mn-section mn-contact" id="contact">
+      <div class="mn-container">
+        <div class="mn-contact__inner" data-contact-inner>
+          <span class="mn-section__label">Get In Touch</span>
+          <h2 class="mn-contact__headline">Ready to build<br>something great?</h2>
+          <p class="mn-contact__sub">Tell us about your project and we'll get back to you within 24 hours.</p>
+          <div class="mn-contact__links">
+            <a href="mailto:hello@meridianstudio.com" class="mn-contact__email">
+              hello@meridianstudio.com
+              <svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="mn-contact__form-wrap">
+            <squarespace:block-field id="contact-form" columns="12" label="Contact Form" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {.end}{.or}
+
+    <!-- =============================================
+         STANDARD PAGE CONTENT
+         ============================================= -->
+    <main class="mn-page-main" id="main-content">
+      <div class="mn-container">
+        <div class="mn-page-content">
+          {squarespace.main-content}
+        </div>
+      </div>
+    </main>
+
+    {.end}
+
+    <!-- =============================================
+         FOOTER
+         ============================================= -->
+    <footer class="mn-footer" id="footer">
+      <div class="mn-container">
+        <div class="mn-footer__top">
+          <div class="mn-footer__brand">
+            <a href="/" class="mn-footer__logo">
+              {.section website}
+                {.section logoImageUrl}
+                  <img src="{logoImageUrl}" alt="{siteTitle}" class="mn-footer__logo-img">
+                {.or}
+                  <span>{siteTitle}</span>
+                {.end}
+              {.end}
+            </a>
+            <p class="mn-footer__tagline">Crafting digital experiences<br>that inspire and convert.</p>
+          </div>
+          <div class="mn-footer__nav-cols">
+            <div class="mn-footer__nav-col">
+              <h4>Studio</h4>
+              <squarespace:navigation navigationId="footerMainNavigation" template="footer-nav" />
+            </div>
+            <div class="mn-footer__nav-col">
+              <h4>Services</h4>
+              <ul>
+                <li><a href="#services">Brand Identity</a></li>
+                <li><a href="#services">Web Design</a></li>
+                <li><a href="#services">Motion Design</a></li>
+                <li><a href="#services">Strategy</a></li>
+              </ul>
+            </div>
+            <div class="mn-footer__nav-col">
+              <h4>Connect</h4>
+              <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Dribbble</a></li>
+                <li><a href="#">LinkedIn</a></li>
+                <li><a href="#">Behance</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="mn-footer__bottom">
+          <p class="mn-footer__copy">&copy; 2024 Meridian Studio. All rights reserved.</p>
+          <p class="mn-footer__legal">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Vendor JS (local, no CDN) -->
+  <script src="/assets/vendor/lenis/lenis.min.js"></script>
+  <script src="/assets/vendor/gsap/gsap.min.js"></script>
+  <script src="/assets/vendor/gsap/ScrollTrigger.min.js"></script>
+  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main app -->
+  <squarespace:script src="meridian-app.js" combo="false" />
+
+  {squarespace-footers}
+
+</body>
 </html>

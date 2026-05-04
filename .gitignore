@@ -1,0 +1,16 @@
+# Squarespace local dev settings (contains your site URL + credentials)
+.local.settings.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if any local tooling is added)
+node_modules/
+npm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
