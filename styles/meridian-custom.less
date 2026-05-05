@@ -1169,9 +1169,10 @@ body,
 }
 
 .mn-page-content {
-  color: @mn-muted;
+  color: rgba(242, 237, 232, 0.72);
   line-height: 1.8;
-  max-width: 720px;
+  max-width: 760px;
+  margin: 0 auto;            // ← centres the content within mn-container
 
   h1, h2, h3 {
     color: @mn-white;
@@ -1181,6 +1182,72 @@ body,
   h1:first-child { margin-top: 0; }
   p { margin-bottom: 20px; }
   a { color: @mn-accent; &:hover { text-decoration: underline; } }
+}
+
+// -------------------------------------------------------
+// Squarespace-injected blog/shop elements (via squarespace.main-content)
+// Override colours so text is visible on dark backgrounds
+// -------------------------------------------------------
+
+// Blog single post: author / date header
+.mn-page-content .BlogItem-meta,
+.mn-page-content .Blog-meta,
+.mn-page-content .author-info,
+.mn-page-content time {
+  color: rgba(242, 237, 232, 0.65);
+  font-size: 13px;
+}
+
+// Blog prev / next navigation
+.mn-page-content .BlogItem-adjacent-item,
+.mn-page-content .BlogItem-adjacent-item a,
+.mn-page-content .BlogList-related a,
+.mn-page-content .sqs-blog-post-prev-next a,
+.mn-page-content .BlogItem-adjacentItems a,
+.mn-page-content [class*="adjacent"] a,
+.mn-page-content [class*="prev-next"] a,
+.mn-page-content [class*="BlogItem-next"] a,
+.mn-page-content [class*="BlogItem-prev"] a {
+  color: @mn-white !important;
+  transition: color 0.2s ease;
+  &:hover { color: @mn-accent !important; }
+}
+
+.mn-page-content [class*="adjacent"],
+.mn-page-content [class*="prev-next"],
+.mn-page-content [class*="BlogItem-next"],
+.mn-page-content [class*="BlogItem-prev"] {
+  color: rgba(242, 237, 232, 0.5);   // label ("PREVIOUS" / "NEXT")
+}
+
+// Add to Cart button — SQS commerce
+.mn-page-content .sqs-add-to-cart-button,
+.mn-page-content [class*="add-to-cart"],
+.mn-page-content [data-test*="add-to-cart"],
+.mn-page-content .product-quantity-input {
+  color: @mn-white !important;
+  border-color: rgba(242, 237, 232, 0.5) !important;
+  background: transparent !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  &:hover {
+    border-color: @mn-white !important;
+    background: rgba(242, 237, 232, 0.08) !important;
+  }
+}
+
+// Quantity stepper (+ / − controls)
+.mn-page-content .ProductItem-quantity-label,
+.mn-page-content [class*="quantity"] {
+  color: rgba(242, 237, 232, 0.75) !important;
+}
+
+// Social share icons row
+.mn-page-content .BlogItem-share,
+.mn-page-content [class*="share"] svg,
+.mn-page-content [class*="social"] svg {
+  color: rgba(242, 237, 232, 0.5);
+  fill: currentColor;
+  &:hover { color: @mn-white; }
 }
 
 // -------------------------------------------------------
@@ -1408,7 +1475,7 @@ body,
 
 .mn-blog-card__media {
   width: 100%;
-  padding-top: 65%;         // ~3:2 ratio
+  padding-top: 72%;         // ~4:3 ratio — tall enough to feel premium, not square
   position: relative;
   overflow: hidden;
   background: @mn-surface2;
@@ -1419,7 +1486,6 @@ body,
     width: 100%;
     height: 100%;
     object-fit: cover;
-    // transform animated by GSAP, no CSS transition
     will-change: transform;
   }
 }
@@ -1454,8 +1520,9 @@ body,
 .mn-blog-card__meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 10px;
+  flex-wrap: nowrap;       // force author + date onto a single line
+  overflow: hidden;
 }
 
 .mn-blog-card__cat {
@@ -1471,10 +1538,11 @@ body,
 }
 
 .mn-blog-card__date {
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.04em;
-  color: rgba(242, 237, 232, 0.45);
+  color: rgba(242, 237, 232, 0.75);   // readable contrast on dark bg
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .mn-blog-card__title {

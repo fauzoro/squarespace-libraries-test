@@ -476,9 +476,8 @@
 
     <main class="mn-blog-main" id="main-content">
       <div class="mn-container">
-        {.section items}
         <div class="mn-blog-grid" role="list">
-          {.repeated section @}
+          {.repeated section items}
           <article class="mn-blog-card" data-blog-card role="listitem">
             <a href="{fullUrl}" class="mn-blog-card__media-link" tabindex="-1" aria-hidden="true">
               {.section thumbnailUrl}
@@ -491,9 +490,6 @@
             </a>
             <div class="mn-blog-card__body">
               <div class="mn-blog-card__meta">
-                {.section categories}
-                <span class="mn-blog-card__cat">{.repeated section @}{@}{.end}</span>
-                {.end}
                 <time class="mn-blog-card__date">{publishOn|date %b %d, %Y}</time>
               </div>
               <h2 class="mn-blog-card__title">
@@ -507,7 +503,6 @@
           </article>
           {.end}
         </div>
-        {.end}
       </div>
     </main>
 
@@ -532,9 +527,8 @@
 
     <main class="mn-shop-main" id="main-content">
       <div class="mn-container">
-        {.section items}
         <div class="mn-shop-grid" role="list">
-          {.repeated section @}
+          {.repeated section items}
           <article class="mn-shop-card" data-shop-card role="listitem">
             <a href="{fullUrl}" class="mn-shop-card__media-link" tabindex="-1" aria-hidden="true">
               {.section mainImageUrl}
@@ -561,7 +555,6 @@
           </article>
           {.end}
         </div>
-        {.end}
       </div>
     </main>
 

@@ -476,16 +476,19 @@
   // — no body-class dependency, works in both local dev + live SQS.
   // ============================================================
   function initCollectionLayouts() {
-    var blogGrid    = document.querySelector('.mn-blog-grid');
-    var shopGrid    = document.querySelector('.mn-shop-grid');
-    var blogMain    = document.querySelector('.mn-blog-main');
-    var shopMain    = document.querySelector('.mn-shop-main');
-    var collHero    = document.querySelector('.mn-coll-hero');
+    var blogGrid     = document.querySelector('.mn-blog-grid');
+    var shopGrid     = document.querySelector('.mn-shop-grid');
+    var blogMain     = document.querySelector('.mn-blog-main');
+    var shopMain     = document.querySelector('.mn-shop-main');
+    var collHero     = document.querySelector('.mn-coll-hero');
     var pageFallback = document.querySelector('.mn-page-main');
-    var indexHero   = document.querySelector('.mn-hero');
+    var indexHero    = document.querySelector('.mn-hero');
+
+    // Grids are always rendered in DOM now; items only exist on list pages
+    var blogHasItems = blogGrid && blogGrid.querySelector('[data-blog-card]');
+    var shopHasItems = shopGrid && shopGrid.querySelector('[data-shop-card]');
 
     // ── Index / homepage ──────────────────────────────────────
-    // Homepage is present → hide fallback and collection layouts
     if (indexHero) {
       if (pageFallback) pageFallback.style.display = 'none';
       if (collHero)     collHero.style.display     = 'none';
@@ -494,16 +497,14 @@
       return;
     }
 
-    // ── Blog / Shop list page (grid rendered) ─────────────────
-    // Custom grid exists → this is a list view; hide fallback
-    if (blogGrid || shopGrid) {
+    // ── Blog / Shop LIST page — items rendered in grid ────────
+    if (blogHasItems || shopHasItems) {
       if (pageFallback) pageFallback.style.display = 'none';
       return;
     }
 
-    // ── Blog / Shop single item page (no grid) ────────────────
-    // We're on a single post/product — hide the list shell,
-    // show the fallback <main> which has {squarespace.main-content}
+    // ── Blog / Shop SINGLE ITEM page — grid is empty ──────────
+    // Hide the empty grid shell + hero; show fallback with SQS content
     if (blogMain || shopMain) {
       if (collHero) collHero.style.display = 'none';
       if (blogMain) blogMain.style.display = 'none';
@@ -512,8 +513,7 @@
       return;
     }
 
-    // ── Regular page, events, folder, etc. ───────────────────
-    // Nothing custom matched — show fallback as-is
+    // ── Regular page / events / folder etc. ──────────────────
     if (pageFallback) pageFallback.style.display = '';
   }
 
