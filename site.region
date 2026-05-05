@@ -457,8 +457,142 @@
 
     {.end}{.or}
 
+    {.equal? collection.typeName "blog"}
+    {.section collection}
+
     <!-- =============================================
-         STANDARD PAGE CONTENT
+         BLOG — collection hero
+         ============================================= -->
+    <section class="mn-coll-hero" aria-label="Blog header">
+      <div class="mn-container">
+        <div class="mn-coll-hero__inner">
+          <span class="mn-section__label" data-reveal>Journal</span>
+          <h1 class="mn-coll-hero__title" data-reveal>Our Thinking</h1>
+          <p class="mn-coll-hero__sub" data-reveal>Design insights, studio news &amp; creative perspectives.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         BLOG — post grid / single post
+         ============================================= -->
+    <main class="mn-blog-main" id="main-content">
+      <div class="mn-container">
+
+        {.section items}
+        <div class="mn-blog-grid" role="list">
+          {.repeated section @}
+          <article class="mn-blog-card" data-blog-card role="listitem">
+            <a href="{fullUrl}" class="mn-blog-card__media-link" tabindex="-1" aria-hidden="true">
+              {.section thumbnailUrl}
+              <div class="mn-blog-card__media">
+                <img src="{thumbnailUrl}" alt="" width="800" height="520" loading="lazy">
+              </div>
+              {.or}
+              <div class="mn-blog-card__media mn-blog-card__media--placeholder"></div>
+              {.end}
+            </a>
+            <div class="mn-blog-card__body">
+              <div class="mn-blog-card__meta">
+                {.section categories}
+                <span class="mn-blog-card__cat">{.repeated section @}{@}{.end}</span>
+                {.end}
+                <time class="mn-blog-card__date">{publishOn|date %b %d, %Y}</time>
+              </div>
+              <h2 class="mn-blog-card__title">
+                <a href="{fullUrl}">{title}</a>
+              </h2>
+              <p class="mn-blog-card__excerpt">{excerpt}</p>
+              <a href="{fullUrl}" class="mn-blog-card__read" aria-label="Read {title}">
+                Read Article <span class="mn-blog-card__read-arrow" aria-hidden="true">&#8599;</span>
+              </a>
+            </div>
+          </article>
+          {.end}
+        </div>
+        {.or}
+
+        <!-- Single post / empty list — Squarespace renderer -->
+        <div class="mn-post-content">
+          {squarespace.main-content}
+        </div>
+
+        {.end}
+
+      </div>
+    </main>
+
+    {.end}
+    {.end}{.or}
+
+    {.equal? collection.typeName "products"}
+    {.section collection}
+
+    <!-- =============================================
+         SHOP — collection hero
+         ============================================= -->
+    <section class="mn-coll-hero" aria-label="Shop header">
+      <div class="mn-container">
+        <div class="mn-coll-hero__inner">
+          <span class="mn-section__label" data-reveal>Shop</span>
+          <h1 class="mn-coll-hero__title" data-reveal>Our Collection</h1>
+          <p class="mn-coll-hero__sub" data-reveal>Thoughtfully crafted objects for discerning tastes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============================================
+         SHOP — product grid / single product
+         ============================================= -->
+    <main class="mn-shop-main" id="main-content">
+      <div class="mn-container">
+
+        {.section items}
+        <div class="mn-shop-grid" role="list">
+          {.repeated section @}
+          <article class="mn-shop-card" data-shop-card role="listitem">
+            <a href="{fullUrl}" class="mn-shop-card__media-link" tabindex="-1" aria-hidden="true">
+              {.section mainImageUrl}
+              <div class="mn-shop-card__media">
+                <img src="{mainImageUrl}" alt="" width="800" height="1000" loading="lazy">
+              </div>
+              {.or}
+              <div class="mn-shop-card__media mn-shop-card__media--placeholder"></div>
+              {.end}
+            </a>
+            <div class="mn-shop-card__body">
+              <div class="mn-shop-card__info">
+                <h2 class="mn-shop-card__title">
+                  <a href="{fullUrl}">{title}</a>
+                </h2>
+                <p class="mn-shop-card__excerpt">{excerpt}</p>
+              </div>
+              <div class="mn-shop-card__footer">
+                <a href="{fullUrl}" class="mn-btn mn-btn--outline mn-shop-card__cta" aria-label="View {title}">
+                  View Product
+                </a>
+              </div>
+            </div>
+          </article>
+          {.end}
+        </div>
+        {.or}
+
+        <!-- Single product — Squarespace Commerce renderer -->
+        <div class="mn-page-content">
+          {squarespace.main-content}
+        </div>
+
+        {.end}
+
+      </div>
+    </main>
+
+    {.end}
+    {.end}{.or}
+
+    <!-- =============================================
+         STANDARD PAGE CONTENT (all other types)
          ============================================= -->
     <main class="mn-page-main" id="main-content">
       <div class="mn-container">
@@ -468,6 +602,8 @@
       </div>
     </main>
 
+    {.end}
+    {.end}
     {.end}
 
     <!-- =============================================

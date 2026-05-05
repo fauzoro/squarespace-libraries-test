@@ -25,6 +25,8 @@
     initScrollReveal();
     initProcessHover();
     initButtonHover();
+    initBlogCards();
+    initShopCards();
     initWorkSwiper();
     initTestimonialSwiper();
     initCounters();
@@ -462,6 +464,186 @@
         el: pagination || null,
         clickable: true
       }
+    });
+  }
+
+  // ============================================================
+  // Blog Cards — GSAP scroll reveal + hover lift + image zoom
+  // ============================================================
+  function initBlogCards() {
+    var cards = document.querySelectorAll('[data-blog-card]');
+    if (!cards.length) return;
+
+    // Scroll reveal
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.utils.toArray('[data-blog-card]').forEach(function (card, i) {
+        gsap.from(card, {
+          opacity: 0,
+          y: 48,
+          duration: 0.75,
+          ease: 'power3.out',
+          delay: (i % 3) * 0.1,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            once: true
+          }
+        });
+      });
+    }
+
+    // Hover: card lift + image zoom
+    if (typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    cards.forEach(function (card) {
+      var img   = card.querySelector('.mn-blog-card__media img');
+      var title = card.querySelector('.mn-blog-card__title');
+      var read  = card.querySelector('.mn-blog-card__read');
+
+      card.addEventListener('mouseenter', function () {
+        gsap.to(card, {
+          y: -10,
+          duration: 0.45,
+          ease: 'power3.out'
+        });
+        if (img) {
+          gsap.to(img, {
+            scale: 1.07,
+            duration: 0.65,
+            ease: 'power2.out'
+          });
+        }
+        if (title) {
+          gsap.to(title, {
+            color: '#F2EDE8',
+            duration: 0.25,
+            ease: 'power2.out'
+          });
+        }
+        if (read) {
+          gsap.to(read, {
+            x: 4,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+      });
+
+      card.addEventListener('mouseleave', function () {
+        gsap.to(card, {
+          y: 0,
+          duration: 0.5,
+          ease: 'power3.inOut'
+        });
+        if (img) {
+          gsap.to(img, {
+            scale: 1,
+            duration: 0.55,
+            ease: 'power2.inOut'
+          });
+        }
+        if (title) {
+          gsap.to(title, {
+            color: '#F2EDE8',
+            duration: 0.3,
+            ease: 'power2.inOut'
+          });
+        }
+        if (read) {
+          gsap.to(read, {
+            x: 0,
+            duration: 0.3,
+            ease: 'power2.inOut'
+          });
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // Shop Cards — GSAP scroll reveal + hover lift + image zoom + CTA reveal
+  // ============================================================
+  function initShopCards() {
+    var cards = document.querySelectorAll('[data-shop-card]');
+    if (!cards.length) return;
+
+    // Scroll reveal
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.utils.toArray('[data-shop-card]').forEach(function (card, i) {
+        gsap.from(card, {
+          opacity: 0,
+          y: 48,
+          duration: 0.75,
+          ease: 'power3.out',
+          delay: (i % 3) * 0.1,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            once: true
+          }
+        });
+      });
+    }
+
+    // Hover
+    if (typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    cards.forEach(function (card) {
+      var img = card.querySelector('.mn-shop-card__media img');
+      var cta = card.querySelector('.mn-shop-card__cta');
+
+      // Prime CTA state
+      if (cta) {
+        gsap.set(cta, { y: 4, opacity: 0.7 });
+      }
+
+      card.addEventListener('mouseenter', function () {
+        gsap.to(card, {
+          y: -10,
+          duration: 0.45,
+          ease: 'power3.out'
+        });
+        if (img) {
+          gsap.to(img, {
+            scale: 1.07,
+            duration: 0.65,
+            ease: 'power2.out'
+          });
+        }
+        if (cta) {
+          gsap.to(cta, {
+            y: 0,
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power3.out'
+          });
+        }
+      });
+
+      card.addEventListener('mouseleave', function () {
+        gsap.to(card, {
+          y: 0,
+          duration: 0.5,
+          ease: 'power3.inOut'
+        });
+        if (img) {
+          gsap.to(img, {
+            scale: 1,
+            duration: 0.55,
+            ease: 'power2.inOut'
+          });
+        }
+        if (cta) {
+          gsap.to(cta, {
+            y: 4,
+            opacity: 0.7,
+            duration: 0.3,
+            ease: 'power2.in'
+          });
+        }
+      });
     });
   }
 
