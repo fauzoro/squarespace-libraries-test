@@ -23,6 +23,7 @@
     initHeroAnimations();
     initMarquee();
     initScrollReveal();
+    initProcessHover();
     initWorkSwiper();
     initTestimonialSwiper();
     initCounters();
@@ -297,6 +298,81 @@
           trigger: el,
           start: 'top 85%',
           once: true
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // Process section — GSAP hover interactions
+  // ============================================================
+  function initProcessHover() {
+    if (typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.querySelectorAll('[data-process-step]').forEach(function (step) {
+      var num    = step.querySelector('.mn-process-step__num');
+      var title  = step.querySelector('h3');
+      var arrow  = step.querySelector('.mn-process-step__arrow');
+
+      // Set initial arrow state via GSAP so it matches CSS will-change
+      if (arrow) gsap.set(arrow, { opacity: 0, x: -10 });
+
+      step.addEventListener('mouseenter', function () {
+        // Number: accent colour + slight scale
+        if (num) {
+          gsap.to(num, {
+            color: '#C9A96E',
+            scale: 1.15,
+            transformOrigin: 'left center',
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+        // Title: slide right 6px
+        if (title) {
+          gsap.to(title, {
+            x: 6,
+            color: '#F2EDE8',
+            duration: 0.35,
+            ease: 'power2.out'
+          });
+        }
+        // Arrow: fade + slide in from left
+        if (arrow) {
+          gsap.to(arrow, {
+            opacity: 1,
+            x: 0,
+            duration: 0.4,
+            ease: 'power3.out'
+          });
+        }
+      });
+
+      step.addEventListener('mouseleave', function () {
+        if (num) {
+          gsap.to(num, {
+            color: '#555555',
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.inOut'
+          });
+        }
+        if (title) {
+          gsap.to(title, {
+            x: 0,
+            color: '#F2EDE8',
+            duration: 0.3,
+            ease: 'power2.inOut'
+          });
+        }
+        if (arrow) {
+          gsap.to(arrow, {
+            opacity: 0,
+            x: -10,
+            duration: 0.25,
+            ease: 'power2.in'
+          });
         }
       });
     });

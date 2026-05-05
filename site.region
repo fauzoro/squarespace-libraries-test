@@ -310,7 +310,7 @@
               <h3>Discovery &amp; Strategy</h3>
               <p>We immerse in your brand, market, and goals. Stakeholder interviews, competitor audits, and positioning workshops.</p>
             </div>
-            <div class="mn-process-step__line"></div>
+            <span class="mn-process-step__arrow" aria-hidden="true">&#8599;</span>
           </div>
 
           <div class="mn-process-step" data-process-step>
@@ -319,7 +319,7 @@
               <h3>Concept &amp; Design</h3>
               <p>Creative exploration, moodboards, and high-fidelity prototypes. Iterative rounds with clear feedback loops.</p>
             </div>
-            <div class="mn-process-step__line"></div>
+            <span class="mn-process-step__arrow" aria-hidden="true">&#8599;</span>
           </div>
 
           <div class="mn-process-step" data-process-step>
@@ -328,7 +328,7 @@
               <h3>Build &amp; Refine</h3>
               <p>Pixel-perfect development with performance as a first-class citizen. Code-reviewed, tested, and optimised.</p>
             </div>
-            <div class="mn-process-step__line"></div>
+            <span class="mn-process-step__arrow" aria-hidden="true">&#8599;</span>
           </div>
 
           <div class="mn-process-step" data-process-step>
@@ -337,6 +337,7 @@
               <h3>Launch &amp; Grow</h3>
               <p>Smooth handoff with thorough documentation. Ongoing retainer support and analytics-led iteration.</p>
             </div>
+            <span class="mn-process-step__arrow" aria-hidden="true">&#8599;</span>
           </div>
 
         </div>

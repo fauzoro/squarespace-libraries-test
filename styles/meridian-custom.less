@@ -112,53 +112,83 @@ body,
 .mn-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 14px 28px;
+  padding: 0 28px;
+  height: 48px;             // explicit height → guaranteed 48px touch target
+  min-width: 44px;
   border-radius: @mn-radius;
   font-family: @mn-font-sans;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s @mn-ease-out;
+  // enumerate instead of "transition: all" (guideline: no transition:all)
+  transition: background-color 0.35s @mn-ease-out,
+              border-color 0.35s @mn-ease-out,
+              color 0.35s @mn-ease-out,
+              box-shadow 0.35s @mn-ease-out,
+              transform 0.25s @mn-ease-out;
   border: 1px solid transparent;
   white-space: nowrap;
+  position: relative;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 2px solid @mn-accent;
+    outline-offset: 3px;
+  }
+
+  &:active { transform: translateY(1px); }
 }
 
+// Primary — solid gold fill, lifts + glows on hover (stays readable)
 .mn-btn--primary {
   background: @mn-accent;
   color: @mn-black;
   border-color: @mn-accent;
+
   &:hover {
-    background: transparent;
-    color: @mn-accent;
+    background: #d9b97e;               // 10% brighter gold
+    border-color: #d9b97e;
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.35);
+    transform: translateY(-2px);
   }
 }
 
+// Outline — border fades in to full opacity, soft glow appears
 .mn-btn--outline {
   background: transparent;
   color: @mn-white;
   border-color: rgba(242, 237, 232, 0.3);
+
   &:hover {
-    border-color: @mn-white;
-    background: @mn-white;
-    color: @mn-black;
+    border-color: rgba(242, 237, 232, 0.9);
+    box-shadow: 0 0 0 1px rgba(242, 237, 232, 0.15),
+                0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    color: @mn-white;
   }
 }
 
+// Ghost — accent underline sweep on hover
 .mn-btn--ghost {
   background: transparent;
-  color: @mn-white;
-  border-color: rgba(242, 237, 232, 0.25);
+  color: rgba(242, 237, 232, 0.7);
+  border-color: transparent;
+
   &:hover {
-    border-color: @mn-white;
+    color: @mn-white;
+    border-color: rgba(242, 237, 232, 0.2);
+    transform: translateY(-1px);
   }
 }
 
 .mn-btn--lg {
-  padding: 18px 36px;
-  font-size: 15px;
+  height: 56px;
+  padding: 0 40px;
+  font-size: 13px;
 }
 
 // -------------------------------------------------------
@@ -365,7 +395,6 @@ body,
 
 .mn-hero {
   position: relative;
-  min-height: 100vh;
   min-height: ~"100svh";
   display: flex;
   align-items: center;
@@ -416,7 +445,7 @@ body,
 
 .mn-hero__headline {
   font-family: @mn-font-serif;
-  font-size: clamp(64px, 10vw, 140px);
+  font-size: ~"clamp(64px, 10vw, 140px)";
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -767,24 +796,40 @@ body,
 .mn-process__list {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .mn-process-step {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr;
-  gap: 32px;
-  align-items: start;
-  padding: 48px 0;
+  grid-template-columns: ~"64px 1fr auto";
+  gap: 40px;
+  align-items: center;
+  padding: 40px 0;
   border-top: 1px solid @mn-border;
   position: relative;
-  transition: background 0.3s ease;
+  cursor: pointer;
+  // border-left used as GSAP hover indicator — starts transparent
+  border-left: 3px solid transparent;
+  padding-left: 24px;
+  margin-left: -27px;    // compensate so content aligns with container
+  // enumerate transitions — no transition:all
+  transition: border-color 0.3s ease,
+              background-color 0.3s ease,
+              padding-left 0.3s ease;
 
   &:last-child { border-bottom: 1px solid @mn-border; }
 
+  &:hover {
+    border-left-color: @mn-accent;
+    background: rgba(201, 169, 110, 0.03);
+  }
+
   @media screen and (max-width: 768px) {
-    grid-template-columns: 48px 1fr;
+    grid-template-columns: ~"40px 1fr";
     gap: 20px;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    border-top-color: @mn-border;
   }
 }
 
@@ -793,24 +838,41 @@ body,
   font-size: 12px;
   letter-spacing: 0.1em;
   color: @mn-muted;
-  padding-top: 4px;
+  // color animated by GSAP on hover
+  will-change: color, transform;
 }
 
 .mn-process-step__content {
   h3 {
     font-family: @mn-font-serif;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 400;
     color: @mn-white;
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     letter-spacing: -0.01em;
+    // x-position animated by GSAP on hover
+    will-change: transform;
   }
   p {
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.75;
     color: @mn-muted;
-    max-width: 440px;
+    max-width: 560px;
     margin: 0;
+  }
+}
+
+// Arrow indicator on right — animates in with GSAP on hover
+.mn-process-step__arrow {
+  font-size: 20px;
+  color: @mn-accent;
+  opacity: 0;
+  transform: translateX(-8px);
+  will-change: opacity, transform;
+  flex-shrink: 0;
+
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 }
 
