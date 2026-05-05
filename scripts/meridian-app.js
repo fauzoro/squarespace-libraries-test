@@ -18,6 +18,7 @@
   }
 
   function init() {
+    initCollectionLayouts(); // must run first — controls page visibility
     initLenis();
     initHeader();
     initHeroAnimations();
@@ -465,6 +466,55 @@
         clickable: true
       }
     });
+  }
+
+  // ============================================================
+  // Collection layout routing
+  // Squarespace renders ALL blocks (index hero, blog hero+grid,
+  // shop hero+grid, fallback <main>) into the DOM every time.
+  // This function decides what to show based purely on DOM presence
+  // — no body-class dependency, works in both local dev + live SQS.
+  // ============================================================
+  function initCollectionLayouts() {
+    var blogGrid    = document.querySelector('.mn-blog-grid');
+    var shopGrid    = document.querySelector('.mn-shop-grid');
+    var blogMain    = document.querySelector('.mn-blog-main');
+    var shopMain    = document.querySelector('.mn-shop-main');
+    var collHero    = document.querySelector('.mn-coll-hero');
+    var pageFallback = document.querySelector('.mn-page-main');
+    var indexHero   = document.querySelector('.mn-hero');
+
+    // ── Index / homepage ──────────────────────────────────────
+    // Homepage is present → hide fallback and collection layouts
+    if (indexHero) {
+      if (pageFallback) pageFallback.style.display = 'none';
+      if (collHero)     collHero.style.display     = 'none';
+      if (blogMain)     blogMain.style.display     = 'none';
+      if (shopMain)     shopMain.style.display     = 'none';
+      return;
+    }
+
+    // ── Blog / Shop list page (grid rendered) ─────────────────
+    // Custom grid exists → this is a list view; hide fallback
+    if (blogGrid || shopGrid) {
+      if (pageFallback) pageFallback.style.display = 'none';
+      return;
+    }
+
+    // ── Blog / Shop single item page (no grid) ────────────────
+    // We're on a single post/product — hide the list shell,
+    // show the fallback <main> which has {squarespace.main-content}
+    if (blogMain || shopMain) {
+      if (collHero) collHero.style.display = 'none';
+      if (blogMain) blogMain.style.display = 'none';
+      if (shopMain) shopMain.style.display = 'none';
+      if (pageFallback) pageFallback.style.display = '';
+      return;
+    }
+
+    // ── Regular page, events, folder, etc. ───────────────────
+    // Nothing custom matched — show fallback as-is
+    if (pageFallback) pageFallback.style.display = '';
   }
 
   // ============================================================
