@@ -1158,6 +1158,15 @@ body,
 // Standard page
 // -------------------------------------------------------
 
+// Hide the always-rendered fallback <main> on pages
+// that have custom layouts (index / blog / products).
+// data-collection-type is written by JSON-T onto .mn-site-wrap.
+[data-collection-type="index"] .mn-page-main,
+[data-collection-type="blog"]  .mn-page-main,
+[data-collection-type="products"] .mn-page-main {
+  display: none;
+}
+
 .mn-page-main {
   padding: 120px 0;
   padding-top: ~"calc(120px + 72px)";
