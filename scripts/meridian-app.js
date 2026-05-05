@@ -24,6 +24,7 @@
     initMarquee();
     initScrollReveal();
     initProcessHover();
+    initButtonHover();
     initWorkSwiper();
     initTestimonialSwiper();
     initCounters();
@@ -374,6 +375,39 @@
             ease: 'power2.in'
           });
         }
+      });
+    });
+  }
+
+  // ============================================================
+  // Button hover — GSAP text-stagger (slide up / slide in from below)
+  // ============================================================
+  function initButtonHover() {
+    if (typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    document.querySelectorAll('.mn-btn').forEach(function (btn) {
+      // Skip if already initialised (e.g. called twice)
+      if (btn.querySelector('.mn-btn__inner')) return;
+
+      var text = btn.textContent.trim();
+      if (!text) return;
+
+      // Rebuild interior: two stacked clones inside a 2× tall wrapper
+      btn.innerHTML =
+        '<span class="mn-btn__inner" aria-hidden="false">' +
+          '<span class="mn-btn__text">' + text + '</span>' +
+          '<span class="mn-btn__text" aria-hidden="true">' + text + '</span>' +
+        '</span>';
+
+      var inner = btn.querySelector('.mn-btn__inner');
+
+      btn.addEventListener('mouseenter', function () {
+        gsap.to(inner, { yPercent: -50, duration: 0.45, ease: 'power3.inOut' });
+      });
+
+      btn.addEventListener('mouseleave', function () {
+        gsap.to(inner, { yPercent: 0, duration: 0.45, ease: 'power3.inOut' });
       });
     });
   }
