@@ -1158,12 +1158,22 @@ body,
 // Standard page
 // -------------------------------------------------------
 
-// Hide the always-rendered fallback <main> on pages
-// that have custom layouts (index / blog / products).
-// data-collection-type is written by JSON-T onto .mn-site-wrap.
-[data-collection-type="index"] .mn-page-main,
-[data-collection-type="blog"]  .mn-page-main,
-[data-collection-type="products"] .mn-page-main {
+// Squarespace adds body classes: collection-type-{type} and view-list / view-item.
+// Use them to show/hide the always-rendered fallback <main> and custom layouts.
+
+// 1. Hide fallback <main> when custom layouts are active
+body.collection-type-index    .mn-page-main,
+body.collection-type-blog.view-list      .mn-page-main,
+body.collection-type-products.view-list  .mn-page-main {
+  display: none;
+}
+
+// 2. On single post/product pages (view-item), hide the custom list layouts
+//    so the fallback <main> with {squarespace.main-content} shows instead
+body.collection-type-blog.view-item     .mn-coll-hero,
+body.collection-type-blog.view-item     .mn-blog-main,
+body.collection-type-products.view-item .mn-coll-hero,
+body.collection-type-products.view-item .mn-shop-main {
   display: none;
 }
 

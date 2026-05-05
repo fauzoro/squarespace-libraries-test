@@ -58,7 +58,7 @@
   <!-- =============================================
        PAGE CONTENT WRAPPER
        ============================================= -->
-  <div class="mn-site-wrap" data-lenis-wrapper data-collection-type="{collection.typeName}">
+  <div class="mn-site-wrap" data-lenis-wrapper>
 
     {.equal? collection.typeName "index"}
     {.section collection}
@@ -507,10 +507,6 @@
           </article>
           {.end}
         </div>
-        {.or}
-        <div class="mn-post-content">
-          {squarespace.main-content}
-        </div>
         {.end}
       </div>
     </main>
@@ -564,10 +560,6 @@
             </div>
           </article>
           {.end}
-        </div>
-        {.or}
-        <div class="mn-page-content">
-          {squarespace.main-content}
         </div>
         {.end}
       </div>
